@@ -52,7 +52,7 @@ export class UsersService {
     return user;
   }
 
-  // retorna FULL (inclui senha) — útil para AuthService.validateUser
+  // retorna FULL (inclui senha)
   async findByEmail(email: string) {
     return this.prisma.user.findUnique({ where: { email }});
   }
