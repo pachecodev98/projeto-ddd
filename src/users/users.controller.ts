@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dto/update-use.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
+import { UserRole } from 'src/common/enums/user-role.enum';
 
 @Controller('users')
 export class UsersController {
@@ -12,7 +13,7 @@ export class UsersController {
 
   // Criar usuário — apenas ADMIN
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN')
+  @Roles(UserRole.ADMIN)
   @Post()
   create(@Body() dto: CreateUserDto) {
     return this.usersService.create(dto);
@@ -20,7 +21,7 @@ export class UsersController {
 
   // Listar usuários — apenas ADMIN
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN')
+  @Roles(UserRole.ADMIN)
   @Get()
   findAll() {
     return this.usersService.findAll();
@@ -28,7 +29,7 @@ export class UsersController {
 
   // Buscar um usuário por id — apenas ADMIN
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN')
+  @Roles(UserRole.ADMIN)
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findByIdPublic(id);
@@ -38,13 +39,13 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   me(@Request() req) {
-    const userId = req.user?.id || req.user?.userId; // dep. do payload da JwtStrategy
+    const userId = req.user?.id || req.user?.userId; 
     return this.usersService.findByIdPublic(Number(userId));
   }
 
-  // Atualizar usuário (apenas ADMIN por enquanto)
+  // Atualizar usuário (apenas ADMIN)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN')
+  @Roles(UserRole.ADMIN)
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateUserDto) {
     return this.usersService.update(id, dto);
@@ -52,7 +53,7 @@ export class UsersController {
 
   // Remover usuário (apenas ADMIN)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN')
+  @Roles(UserRole.ADMIN)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(id);

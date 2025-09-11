@@ -15,13 +15,14 @@ import {
   import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
   import { RolesGuard } from '../auth/guards/roles.guard';
   import { Roles } from '../auth/decorators/roles.decorator';
+  import { UserRole } from '../common/enums/user-role.enum';
   
   @Controller('books')
   export class BooksController {
     constructor(private readonly booksService: BooksService) {}
     // cria um novo livro
     @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('ADMIN', 'TEACHER')
+    @Roles(UserRole.ADMIN, UserRole.TEACHER)
     @Post()
     create(@Body() dto: CreateBookDto) {
       return this.booksService.create(dto);
@@ -40,14 +41,14 @@ import {
     }
     // atualiza um livro por id
     @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('ADMIN', 'TEACHER')
+    @Roles(UserRole.ADMIN, UserRole.TEACHER)
     @Patch(':id')
     update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateBookDto) {
       return this.booksService.update(id, dto);
     }
     // deleta um livro por id
     @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('ADMIN')
+    @Roles(UserRole.ADMIN)
     @Delete(':id')
     remove(@Param('id', ParseIntPipe) id: number) {
       return this.booksService.remove(id);

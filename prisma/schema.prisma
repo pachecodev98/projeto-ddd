@@ -7,7 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
+// O enum UserRole foi movido para src/common/enums/user-role.enum.ts
+enum Role {
   ADMIN
   TEACHER
   COORDINATOR
@@ -19,7 +20,7 @@ model User {
   name      String
   email     String  @unique
   password  String
-  role      UserRole @default(STUDENT)
+  role      Role @default(STUDENT)
   status    Boolean @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

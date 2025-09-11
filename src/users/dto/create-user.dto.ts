@@ -1,6 +1,5 @@
-import { IsEmail, IsNotEmpty, MinLength, IsOptional, IsIn } from 'class-validator';
-
-export const USER_ROLES = ['ADMIN', 'TEACHER', 'COORDINATOR', 'STUDENT'] as const;
+import { IsEmail, IsNotEmpty, MinLength, IsOptional, IsEnum } from 'class-validator';
+import { UserRole } from '../../common/enums/user-role.enum';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -13,6 +12,6 @@ export class CreateUserDto {
   password: string;
 
   @IsOptional()
-  @IsIn(USER_ROLES as any)
-  role?: string;
+  @IsEnum(UserRole)
+  role?: UserRole;
 }

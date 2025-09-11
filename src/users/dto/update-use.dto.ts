@@ -1,5 +1,5 @@
 import { IsOptional, IsEmail, MinLength, IsIn, IsBoolean } from 'class-validator';
-import { USER_ROLES } from './create-user.dto';
+import { UserRole } from '../../common/enums/user-role.enum';
 
 export class UpdateUserDto {
   @IsOptional()
@@ -14,7 +14,7 @@ export class UpdateUserDto {
   password?: string;
 
   @IsOptional()
-  @IsIn(USER_ROLES as any)
+  @IsIn(UserRole as any)
   role?: string;
 
   @IsOptional()
