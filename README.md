@@ -1,6 +1,21 @@
 # Sistema de Biblioteca - API NestJS com DDD
 
-Este projeto implementa uma API RESTful para gerenciamento de biblioteca utilizando NestJS e Domain-Driven Design. O sistema permite gerenciar livros, usuários e empréstimos com autenticação JWT e controle de acesso baseado em funções.
+Checklist de funcionalidades: 
+
+Criação do projeto Nest, deps e ValidationPipe global. ✅
+Prisma + schema com User (enum UserRole), Book (boolean available) e etc. ✅
+Migrations (migrate dev) e PrismaService global. ✅
+Auth JWT (login/register), JwtStrategy, JwtAuthGuard, RolesGuard + @Roles. ✅
+CRUD de livros com proteção por roles e atualização de disponibilidade. ✅
+Fluxo de empréstimo/devolução com transações (atualiza available). ✅
+Rotas obrigatórias e collection Postman com variáveis {{base_url}} e {{jwt}}. ✅
+Seed de admin, README e checklist de entrega. ✅
+
+Segue url pro download da collection
+
+``
+https://f1db1697a064bb1ff88337831cf79987.cdn.bubble.io/f1757637267816x455882313045237200/Projeto-DDD.postman_collection.json?_gl=1*trqjbj*_gcl_au*MjAzOTAyNzkwOC4xNzUzNDY1MTk0*_ga*MTc4MTkyNDczNS4xNzUzNDY1MTg1*_ga_BFPVR2DEE2*czE3NTc1OTgwNjUkbzM0JGcxJHQxNzU3NjM3MjYyJGo5JGwwJGgw
+``
 
 ## Tecnologias Utilizadas
 
@@ -44,12 +59,6 @@ JWT_SECRET="sua_chave_secreta_aqui"
 npx prisma migrate dev
 ```
 
-3. (Opcional) Execute o seed para popular o banco com dados iniciais:
-
-```bash
-npx prisma db seed
-```
-
 ## Executando o Projeto
 
 ```bash
@@ -90,12 +99,7 @@ O projeto segue uma arquitetura de Domain-Driven Design (DDD) com os seguintes m
 - Cadastro, atualização, consulta e remoção de livros
 - Controle de disponibilidade
 - Categorização
-
-### Empréstimos (Loans)
-
-- Registro de empréstimos de livros
-- Controle de datas (empréstimo, devolução prevista e efetiva)
-- Associação entre livros e usuários
+- Sistema de empréstimo via endpoint de atualização (disponibilidade)
 
 ## API Endpoints
 
@@ -114,11 +118,3 @@ O projeto segue uma arquitetura de Domain-Driven Design (DDD) com os seguintes m
 - `PATCH /books/:id` - Atualizar um livro (requer função ADMIN ou TEACHER)
 - `DELETE /books/:id` - Remover um livro (requer função ADMIN)
 
-## Segurança
-
-O sistema implementa diversos níveis de segurança:
-
-- Autenticação via JWT
-- Controle de acesso por função (RBAC)
-- Senhas criptografadas
-- Validação de entrada de dados
